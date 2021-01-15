@@ -14,7 +14,7 @@ RSpec.describe 'pattern matching' do
     it 'does not match without splat' do
       expect do
         case array
-          in [matched]
+          in [_matched]
           raise 'should not be executed'
         end
       end.to raise_error(NoMatchingPatternError)
@@ -40,7 +40,7 @@ RSpec.describe 'pattern matching' do
 
     it 'matches the rest of the hash' do
       case hash
-        in {a: value, **rest}
+        in {a: _value, **rest}
         expect(rest).to eq(b: 'b', c: 42)
       end
     end
