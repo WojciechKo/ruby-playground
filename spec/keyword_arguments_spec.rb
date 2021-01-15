@@ -1,16 +1,6 @@
+require 'support/ruby_versions'
+
 RSpec.describe 'Method declared' do
-  shared_context 'with ruby 2.7.x' do
-    around do |example|
-      example.call if (2.7...3).cover?(RUBY_VERSION.to_f)
-    end
-  end
-
-  shared_context 'with ruby 3.0.x' do
-    around do |example|
-      example.call if (3...).cover?(RUBY_VERSION.to_f)
-    end
-  end
-
   shared_examples 'it works fine' do |expectation|
     specify do
       expect(invocation.call).to eq(expectation)
@@ -24,12 +14,6 @@ RSpec.describe 'Method declared' do
       end.to raise_error(ArgumentError)
     end
   end
-
-  RSpec.configure do |config|
-    config.alias_it_behaves_like_to(:when_run, 'when run')
-  end
-
-  # EXAMPLES
 
   context 'with sigle keyword argument' do
     def foo(key: 21)
