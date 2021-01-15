@@ -9,6 +9,10 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**'
 
+Naming/MethodParameterName:
+  AllowedNames:
+    - kw
+
 RSpec/DescribeClass:
   Enabled: false
 
