@@ -276,4 +276,88 @@ RSpec.describe 'Method declared' do
       include_examples 'it works fine', [{ 'key' => 32 }, 43]
     end
   end
+
+  context 'with "**nil" argument' do
+    def foo(arg, **nil)
+      [arg]
+    end
+
+    context 'when called with a hash with symbolized key' do
+      subject(:invocation) { -> { foo({ key: 32 }) } }
+
+      include_examples 'it works fine', [{ key: 32 }]
+    end
+
+    context 'when called with a hash with stringified key' do
+      subject(:invocation) { -> { foo({ 'key' => 32 }) } }
+
+      include_examples 'it works fine', [{ 'key' => 32 }]
+    end
+
+    context 'when called with a single keyword argument' do
+      subject(:invocation) { -> { foo(key: 32) } }
+
+      include_examples 'it does not work fine'
+    end
+
+    context 'when called with a single stringified keyword argument' do
+      subject(:invocation) { -> { foo('key' => 32) } }
+
+      include_examples 'it does not work fine'
+    end
+
+    context 'when called with a splated hash with symbolized key' do
+      subject(:invocation) { -> { foo(**{ key: 32 }) } }
+
+      include_examples 'it does not work fine'
+    end
+
+    context 'when called with a splated hash with stringified keys' do
+      subject(:invocation) { -> { foo(**{ 'key' => 32 }) } }
+
+      include_examples 'it does not work fine'
+    end
+  end
+
+  context 'with "*arg" and without any keyword argument' do
+    def foo(*arg)
+      [arg]
+    end
+
+    context 'when called with an empty hash' do
+      subject(:invocation) { -> { foo({}) } }
+
+      include_examples 'it works fine', [[{}]]
+    end
+
+    context 'when called with a splated empty hash' do
+      subject(:invocation) { -> { foo(**{}) } }
+
+      include_examples 'it works fine', [[]]
+    end
+  end
+
+  context 'with "arg" and without any keyword argument' do
+    def foo(arg)
+      [arg]
+    end
+
+    context 'when called with an empty hash' do
+      subject(:invocation) { -> { foo({}) } }
+
+      include_examples 'it works fine', [{}]
+    end
+
+    context 'when called with a splated empty hash' do
+      subject(:invocation) { -> { foo(**{}) } }
+
+      when_run 'with ruby 2.7.x' do
+        include_examples 'it works fine', [{}]
+      end
+
+      when_run 'with ruby 3.0.x' do
+        include_examples 'it does not work fine'
+      end
+    end
+  end
 end
