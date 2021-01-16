@@ -24,3 +24,6 @@ Style/FrozenStringLiteralComment:
 
 Style/StringLiterals:
   EnforcedStyle: single_quotes
+
+Style/WordArray:
+  EnforcedStyle: brackets
