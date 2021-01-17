@@ -1,4 +1,4 @@
-RSpec.describe 'Argument forwarding' do
+RSpec.describe 'Arguments forwarding' do
   subject(:object_under_test) { FooClass.new(inner_object) }
 
   before do
